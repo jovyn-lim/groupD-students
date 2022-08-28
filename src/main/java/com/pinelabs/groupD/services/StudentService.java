@@ -16,14 +16,13 @@ public class StudentService {
                 new Student(
                         001L,
                         "Jovyn",
-                        LocalDate.of(1996, Month.SEPTEMBER, 18),
                         18,
-                        00.00F,
-                        11.11F,
                         "Happy Garden",
                         LocalDateTime.of(2022, Month.AUGUST, 28, 8, 00, 48),
                         LocalDateTime.of(2022, Month.AUGUST, 28, 8,30, 00)
                 )
         );
     }
+
+    //public getAllStudents()
 }
