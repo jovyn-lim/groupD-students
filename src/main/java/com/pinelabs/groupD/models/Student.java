@@ -1,15 +1,29 @@
 package com.pinelabs.groupD.models;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Entity
+@Table
 public class Student {
+    @Id
+    @SequenceGenerator(
+            name = "student_sequence",
+            sequenceName = "student_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "student_sequence"
+    )
     private Long id;
     private String name;
 //    private enum status{
 //        ACTIVE, INACTIVE
 //    }
     private LocalDate dob;
+    @Transient
     private Integer age;
     private Float lat;
     private Float lon;
@@ -124,7 +138,7 @@ public class Student {
                 ", age=" + age +
                 ", lat=" + lat +
                 ", lon=" + lon +
-                ", address='" + address + '\'' +
+                ", address='" + address + '\' +
                 ", createdOn=" + createdOn +
                 ", modifiedOn=" + modifiedOn +
                 '}';
