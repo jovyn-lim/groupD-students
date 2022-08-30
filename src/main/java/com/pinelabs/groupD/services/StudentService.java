@@ -32,15 +32,9 @@ public class StudentService {
             throw new IllegalStateException("This email is taken");
         }
 
-        LocalDateTime now = LocalDateTime.now();
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-        String formatDateTime = now.format(formatter);
-
-        student.setCreatedOn(formatDateTime);
-
-        student.setModifiedOn(formatDateTime);
+        student.setCreatedOn(LocalDateTime.now().format(formatter));
+        student.setModifiedOn(LocalDateTime.now().format(formatter));
 
         studentRepository.save(student);
     }
@@ -66,6 +60,8 @@ public class StudentService {
             if (studentByEmail.isPresent()) {
                 returnMessage = "This email is taken";
             } else {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                student.setModifiedOn(LocalDateTime.now().format(formatter));
                 student.setEmail(email);
                 returnMessage = "Email has been updated";
             }
@@ -75,6 +71,8 @@ public class StudentService {
 
 
         if (address != null && address.length() > 0 && !Objects.equals(student.getAddress(), address)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            student.setModifiedOn(LocalDateTime.now().format(formatter));
             student.setAddress(address);
             returnMessage = returnMessage.concat( "\nAddress has been updated");
         } else if (Objects.equals(student.getAddress(), address)) {
