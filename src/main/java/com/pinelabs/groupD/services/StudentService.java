@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.pinelabs.groupD.Repository.StudentRepository.*;
-
 @Service
 public class StudentService {
     private final StudentRepository studentRepository;
@@ -25,6 +23,13 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
+    public Optional<Student> getStudentById(Long studentId) {
+        boolean exist = studentRepository.existsById(studentId);
+        if (!exist){
+            throw new IllegalStateException("student with id " + studentId + " does not exists");
+        }
+        return studentRepository.findStudentById(studentId);
+    }
     public void addNewStudent(Student student) {
         Optional<Student> studentOptional = studentRepository.findStudentByEmail(student.getEmail());
 
