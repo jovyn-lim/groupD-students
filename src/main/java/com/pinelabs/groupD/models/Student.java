@@ -3,6 +3,7 @@ package com.pinelabs.groupD.models;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 
 @Entity
 @Table
@@ -23,6 +24,9 @@ public class Student {
 //        ACTIVE, INACTIVE
 //    }
     private LocalDate dob;
+
+    private String email;
+
     @Transient
     private Integer age;
     private Float lat;
@@ -34,11 +38,11 @@ public class Student {
     public Student() {
     }
 
-    public Student(Long id, String name, LocalDate dob, Integer age, Float lat, Float lon, String address, LocalDateTime createdOn, LocalDateTime modifiedOn) {
+    public Student(Long id, String name, LocalDate dob, String email, Integer age, Float lat, Float lon, String address, LocalDateTime createdOn, LocalDateTime modifiedOn) {
         this.id = id;
         this.name = name;
         this.dob = dob;
-        this.age = age;
+        this.email = email;
         this.lat = lat;
         this.lon = lon;
         this.address = address;
@@ -46,10 +50,10 @@ public class Student {
         this.modifiedOn = modifiedOn;
     }
 
-    public Student(String name, LocalDate dob, Integer age, Float lat, Float lon, String address, LocalDateTime createdOn, LocalDateTime modifiedOn) {
+    public Student(String name, LocalDate dob, String email, Integer age, Float lat, Float lon, String address, LocalDateTime createdOn, LocalDateTime modifiedOn) {
         this.name = name;
         this.dob = dob;
-        this.age = age;
+        this.email = email;
         this.lat = lat;
         this.lon = lon;
         this.address = address;
@@ -81,8 +85,16 @@ public class Student {
         this.dob = dob;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Integer getAge() {
-        return age;
+        return Period.between(this.dob,LocalDate.now()).getYears() ;
     }
 
     public void setAge(Integer age) {
@@ -135,13 +147,18 @@ public class Student {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", dob=" + dob +
+                ", Email='" + email + '\'' +
                 ", age=" + age +
                 ", lat=" + lat +
                 ", lon=" + lon +
-                ", address='" + address + '\' +
+                ", address='" + address + '\'' +
                 ", createdOn=" + createdOn +
                 ", modifiedOn=" + modifiedOn +
                 '}';
-    }
+
 }
+
+}
+
+
 
