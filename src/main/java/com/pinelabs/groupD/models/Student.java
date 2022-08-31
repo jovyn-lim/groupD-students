@@ -20,11 +20,19 @@ public class Student {
 
     private Long id;
     private String name;
-//    private enum status{
-//        ACTIVE, INACTIVE
+
+//    private StudentStatus status;
+//    public enum StudentStatus {
+//        ACTIVE,
+//        INACTIVE;
+//    }
+//    public boolean isActive() {
+//        if (getStatus() == StudentStatus.ACTIVE) {
+//            return true;
+//        }
+//        return false;
 //    }
     private LocalDate dob;
-
     @Transient
     private Integer age;
     private String email;
@@ -38,6 +46,7 @@ public class Student {
     public Student(Long id, String name, LocalDate dob, String email, String address, String createdOn, String modifiedOn) {
         this.id = id;
         this.name = name;
+        //this.status = status;
         this.dob = dob;
         this.email = email;
         this.address = address;
@@ -47,6 +56,7 @@ public class Student {
 
     public Student(String name, LocalDate dob, String email, String address, String createdOn, String modifiedOn) {
         this.name = name;
+        //this.status = status;
         this.dob = dob;
         this.email = email;
         this.address = address;
@@ -69,6 +79,14 @@ public class Student {
     public void setName(String name) {
         this.name = name;
     }
+
+//    public StudentStatus getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(StudentStatus status) {
+//        this.status = status;
+//    }
 
     public LocalDate getDob() {
         return dob;
@@ -124,12 +142,13 @@ public class Student {
         return "Student{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+//                ", status=" + status +
                 ", dob=" + dob +
                 ", age=" + age +
                 ", email='" + email + '\'' +
                 ", address='" + address + '\'' +
-                ", createdOn=" + createdOn +
-                ", modifiedOn=" + modifiedOn +
+                ", createdOn='" + createdOn + '\'' +
+                ", modifiedOn='" + modifiedOn + '\'' +
                 '}';
     }
 }
