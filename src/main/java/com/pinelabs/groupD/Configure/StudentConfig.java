@@ -23,8 +23,6 @@ public class StudentConfig {
                     LocalDate.of(1997,Month.AUGUST,22),
                     "Jovyn@gmail.com",
                     22,
-                    121.12F,
-                    121.12F,
                     "Happy Garden",
                     LocalDateTime.of(2022, Month.AUGUST, 28, 8, 00, 48),
                     LocalDateTime.of(2022, Month.AUGUST, 28, 8,30, 00)
@@ -34,8 +32,6 @@ public class StudentConfig {
                     LocalDate.of(1998,Month.JANUARY,01),
                     "arul@gmail.com",
                     50,
-                    121.12F,
-                    121.11F,
                     "Kl",
                     LocalDateTime.of(2022, Month.AUGUST, 28, 8, 00, 48),
                     LocalDateTime.of(2022, Month.AUGUST, 28, 8,30, 00)
