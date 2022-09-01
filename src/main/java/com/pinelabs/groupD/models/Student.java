@@ -21,17 +21,11 @@ public class Student {
     private Long id;
     private String name;
 
-//    private StudentStatus status;
-//    public enum StudentStatus {
-//        ACTIVE,
-//        INACTIVE;
-//    }
-//    public boolean isActive() {
-//        if (getStatus() == StudentStatus.ACTIVE) {
-//            return true;
-//        }
-//        return false;
-//    }
+    private StudentStatus status;
+    public enum StudentStatus {
+        ACTIVE,
+        INACTIVE;
+    }
     private LocalDate dob;
     @Transient
     private Integer age;
@@ -43,10 +37,10 @@ public class Student {
     public Student() {
     }
 
-    public Student(Long id, String name, LocalDate dob, String email, String address, String createdOn, String modifiedOn) {
+    public Student(Long id, String name, StudentStatus status, LocalDate dob, String email, String address, String createdOn, String modifiedOn) {
         this.id = id;
         this.name = name;
-        //this.status = status;
+        this.status = status;
         this.dob = dob;
         this.email = email;
         this.address = address;
@@ -54,9 +48,9 @@ public class Student {
         this.modifiedOn = modifiedOn;
     }
 
-    public Student(String name, LocalDate dob, String email, String address, String createdOn, String modifiedOn) {
+    public Student(String name, StudentStatus status, LocalDate dob, String email, String address, String createdOn, String modifiedOn) {
         this.name = name;
-        //this.status = status;
+        this.status = status;
         this.dob = dob;
         this.email = email;
         this.address = address;
@@ -80,13 +74,13 @@ public class Student {
         this.name = name;
     }
 
-//    public StudentStatus getStatus() {
-//        return status;
-//    }
-//
-//    public void setStatus(StudentStatus status) {
-//        this.status = status;
-//    }
+    public StudentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(StudentStatus status) {
+        this.status = status;
+    }
 
     public LocalDate getDob() {
         return dob;
@@ -142,7 +136,7 @@ public class Student {
         return "Student{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-//                ", status=" + status +
+                ", status=" + status +
                 ", dob=" + dob +
                 ", age=" + age +
                 ", email='" + email + '\'' +

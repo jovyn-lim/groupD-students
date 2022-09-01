@@ -61,7 +61,7 @@ public class StudentService {
     }
 
     @Transactional
-    public String updateStudent(Long studentId, String name, String email, String address) {
+    public String updateStudent(Long studentId, String name, Student.StudentStatus status, String email, String address) {
         Student student = studentRepository.findById(studentId).orElseThrow(() -> new IllegalStateException(
                 "Student with ID " + studentId + " does not exist"));
 
@@ -72,6 +72,13 @@ public class StudentService {
             student.setModifiedOn(LocalDateTime.now().format(formatter));
             student.setName(name);
             returnMessage = returnMessage.concat("\nStudent name has been modified");
+        }
+
+        {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            student.setModifiedOn(LocalDateTime.now().format(formatter));
+            student.setStatus(status);
+            returnMessage = returnMessage.concat("\nStudent status has been updated");
         }
 
         if (email != null && email.length() > 0 ) {

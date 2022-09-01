@@ -20,6 +20,7 @@ public class StudentConfig {
         return args -> {
             Student jovyn = new Student(
                     "Jovyn",
+                    Student.StudentStatus.ACTIVE,
                     LocalDate.of(1980, JANUARY, 01),
                     "apilearner@gmail.com",
                     "Happy Garden",
@@ -28,6 +29,7 @@ public class StudentConfig {
             );
             Student arul = new Student(
                     "Arul",
+                    Student.StudentStatus.INACTIVE,
                     LocalDate.of(2020, FEBRUARY, 01),
                     "apiteacher@gmail.com",
                     "Sad Garden",
