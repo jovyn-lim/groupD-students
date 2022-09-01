@@ -74,7 +74,7 @@ public class StudentService {
             returnMessage = returnMessage.concat("\nStudent name has been modified");
         }
 
-        {
+        if (status == Student.StudentStatus.ACTIVE || status == Student.StudentStatus.INACTIVE){
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             student.setModifiedOn(LocalDateTime.now().format(formatter));
             student.setStatus(status);
