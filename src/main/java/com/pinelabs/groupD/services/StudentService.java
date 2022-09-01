@@ -65,13 +65,13 @@ public class StudentService {
         Student student = studentRepository.findById(studentId).orElseThrow(() -> new IllegalStateException(
                 "Student with ID " + studentId + " does not exist"));
 
-        String returnMessage = null;
+        String returnMessage = "Welcome";
 
         if (name != null && name.length() > 0 && !Objects.equals(student.getName(), name)) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             student.setModifiedOn(LocalDateTime.now().format(formatter));
             student.setName(name);
-            returnMessage = "Student name has been modified";
+            returnMessage = returnMessage.concat("\nStudent name has been modified");
         }
 
         if (email != null && email.length() > 0 ) {
