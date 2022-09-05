@@ -1,5 +1,6 @@
 package com.pinelabs.groupD.services;
 
+import com.pinelabs.groupD.exceptions.StudentNotFoundException;
 import com.pinelabs.groupD.models.Student;
 import com.pinelabs.groupD.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +27,15 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public Optional<Student> getStudentById(Long studentId) {
-        boolean exists = studentRepository.existsById(studentId);
-        if(!exists) {
-            throw new IllegalStateException("Student with id " + studentId + " does not exist");
+    public Student getStudentById(Long studentId) {
+        Optional<Student> optionalStudent = studentRepository.findById(studentId);
+        if (!optionalStudent.isPresent()) {
+            throw new StudentNotFoundException();
         }
-        return studentRepository.findStudentById(studentId);
+        return optionalStudent.get();
     }
 
-    public String addNewStudent(Student student) {
+    public Student addNewStudent(Student student) {
         Optional<Student> studentByEmail = studentRepository.findStudentByEmail(student.getEmail());
         if (studentByEmail.isPresent()) {
             throw new IllegalStateException("This email is taken");
@@ -44,67 +45,65 @@ public class StudentService {
         student.setCreatedOn(LocalDateTime.now().format(formatter));
         student.setModifiedOn(LocalDateTime.now().format(formatter));
 
-        studentRepository.save(student);
-
-        return "Student successfully created";
+        return studentRepository.save(student);
     }
 
-    public String deleteStudent(Long studentId) {
-        boolean exists = studentRepository.existsById(studentId);
-        if(!exists) {
-            throw new IllegalStateException(
-                    "Student with ID " + studentId + " does not exist");
+    public Student deleteStudent(Long studentId) {
+
+        Optional<Student> optionalStudent = studentRepository.findById(studentId);
+        if (!optionalStudent.isPresent()) {
+            throw new StudentNotFoundException();
         }
         studentRepository.deleteById(studentId);
 
-        return "This student record was deleted";
+        return optionalStudent.get();
     }
 
-    @Transactional
-    public String updateStudent(Long studentId, String name, Student.StudentStatus status, String email, String address) {
-        Student student = studentRepository.findById(studentId).orElseThrow(() -> new IllegalStateException(
-                "Student with ID " + studentId + " does not exist"));
-
-        String returnMessage = "Welcome";
-
-        if (name != null && name.length() > 0 && !Objects.equals(student.getName(), name)) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            student.setModifiedOn(LocalDateTime.now().format(formatter));
-            student.setName(name);
-            returnMessage = returnMessage.concat("\nStudent name has been modified");
-        }
-
-        if (status == Student.StudentStatus.ACTIVE || status == Student.StudentStatus.INACTIVE){
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            student.setModifiedOn(LocalDateTime.now().format(formatter));
-            student.setStatus(status);
-            returnMessage = returnMessage.concat("\nStudent status has been updated");
-        }
-
-        if (email != null && email.length() > 0 ) {
-            Optional<Student> studentByEmail = studentRepository.findStudentByEmail(email);
-            if (studentByEmail.isPresent()) {
-                returnMessage = returnMessage.concat("\nThis email is taken");
-            } else if (email != student.getEmail()) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                student.setModifiedOn(LocalDateTime.now().format(formatter));
-                student.setEmail(email);
-                returnMessage = returnMessage.concat("\nEmail has been updated");
-            } else {
-                returnMessage = returnMessage.concat("\nInvalid email");
-            }
-        }
-
-
-        if (address != null && address.length() > 0 && !Objects.equals(student.getAddress(), address)) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            student.setModifiedOn(LocalDateTime.now().format(formatter));
-            student.setAddress(address);
-            returnMessage = returnMessage.concat( "\nAddress has been updated");
-        } else if (Objects.equals(student.getAddress(), address)) {
-            returnMessage = returnMessage.concat( "\nThis address has been previously recorded");
-        }
-        return returnMessage;
-    }
+//    @Transactional
+//    public String updateStudent(Long studentId, String name, Student.StudentStatus status, String email, String address) {
+//        Student student = studentRepository.findById(studentId).orElseThrow(() -> new IllegalStateException(
+//                "Student with ID " + studentId + " does not exist"));
+//
+//        String returnMessage = "Welcome";
+//
+//        if (name != null && name.length() > 0 && !Objects.equals(student.getName(), name)) {
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//            student.setModifiedOn(LocalDateTime.now().format(formatter));
+//            student.setName(name);
+//            returnMessage = returnMessage.concat("\nStudent name has been modified");
+//        }
+//
+//        if (status == Student.StudentStatus.ACTIVE || status == Student.StudentStatus.INACTIVE){
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//            student.setModifiedOn(LocalDateTime.now().format(formatter));
+//            student.setStatus(status);
+//            returnMessage = returnMessage.concat("\nStudent status has been updated");
+//        }
+//
+//        if (email != null && email.length() > 0 ) {
+//            Optional<Student> studentByEmail = studentRepository.findStudentByEmail(email);
+//            if (studentByEmail.isPresent()) {
+//                returnMessage = returnMessage.concat("\nThis email is taken");
+//            } else if (email != student.getEmail()) {
+//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//                student.setModifiedOn(LocalDateTime.now().format(formatter));
+//                student.setEmail(email);
+//                returnMessage = returnMessage.concat("\nEmail has been updated");
+//            } else {
+//                returnMessage = returnMessage.concat("\nInvalid email");
+//            }
+//        }
+//
+//
+//        if (address != null && address.length() > 0 && !Objects.equals(student.getAddress(), address)) {
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//            student.setModifiedOn(LocalDateTime.now().format(formatter));
+//            student.setAddress(address);
+//            returnMessage = returnMessage.concat( "\nAddress has been updated");
+//        } else if (Objects.equals(student.getAddress(), address)) {
+//            returnMessage = returnMessage.concat( "\nThis address has been previously recorded");
+//        }
+//        return studentRepository.save(student);
+//    }
 }
 
