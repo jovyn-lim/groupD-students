@@ -38,13 +38,13 @@ public class StudentController {
         return new ResponseEntity<>(this.studentService.deleteStudent(studentId), HttpStatus.ACCEPTED);
     }
 
-//    @PutMapping(path = "{studentId}")
-//    public String updateStudent(
-//            @PathVariable("studentId") Long studentId,
-//            @RequestBody(required = false) String name,
-//            @RequestBody(required = false) Student.StudentStatus status,
-//            @RequestBody(required = false) String email,
-//            @RequestBody(required = false) String address) {
-//        return studentService.updateStudent(studentId, name, status, email, address);
-//    }
+    @PutMapping(path = "{studentId}")
+    public ResponseEntity<?> updateStudent(
+            @PathVariable("studentId") Long studentId,
+            @RequestParam(required = true) String name,
+            @RequestParam(required = true) Student.StudentStatus status,
+            @RequestParam(required = true) String email,
+            @RequestParam(required = true) String address) {
+        return new ResponseEntity<>(this.studentService.updateStudent(studentId, name, status, email, address), HttpStatus.OK);
+    }
 }

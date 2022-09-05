@@ -10,7 +10,6 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -59,51 +58,21 @@ public class StudentService {
         return optionalStudent.get();
     }
 
-//    @Transactional
-//    public String updateStudent(Long studentId, String name, Student.StudentStatus status, String email, String address) {
-//        Student student = studentRepository.findById(studentId).orElseThrow(() -> new IllegalStateException(
-//                "Student with ID " + studentId + " does not exist"));
-//
-//        String returnMessage = "Welcome";
-//
-//        if (name != null && name.length() > 0 && !Objects.equals(student.getName(), name)) {
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//            student.setModifiedOn(LocalDateTime.now().format(formatter));
-//            student.setName(name);
-//            returnMessage = returnMessage.concat("\nStudent name has been modified");
-//        }
-//
-//        if (status == Student.StudentStatus.ACTIVE || status == Student.StudentStatus.INACTIVE){
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//            student.setModifiedOn(LocalDateTime.now().format(formatter));
-//            student.setStatus(status);
-//            returnMessage = returnMessage.concat("\nStudent status has been updated");
-//        }
-//
-//        if (email != null && email.length() > 0 ) {
-//            Optional<Student> studentByEmail = studentRepository.findStudentByEmail(email);
-//            if (studentByEmail.isPresent()) {
-//                returnMessage = returnMessage.concat("\nThis email is taken");
-//            } else if (email != student.getEmail()) {
-//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//                student.setModifiedOn(LocalDateTime.now().format(formatter));
-//                student.setEmail(email);
-//                returnMessage = returnMessage.concat("\nEmail has been updated");
-//            } else {
-//                returnMessage = returnMessage.concat("\nInvalid email");
-//            }
-//        }
-//
-//
-//        if (address != null && address.length() > 0 && !Objects.equals(student.getAddress(), address)) {
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//            student.setModifiedOn(LocalDateTime.now().format(formatter));
-//            student.setAddress(address);
-//            returnMessage = returnMessage.concat( "\nAddress has been updated");
-//        } else if (Objects.equals(student.getAddress(), address)) {
-//            returnMessage = returnMessage.concat( "\nThis address has been previously recorded");
-//        }
-//        return studentRepository.save(student);
-//    }
+    @Transactional
+    public Student updateStudent(Long studentId, String name, Student.StudentStatus status, String email, String address) {
+        Optional<Student> optionalStudent = studentRepository.findById(studentId);
+        if (!optionalStudent.isPresent()) {
+            throw new StudentNotFoundException();
+        }
+        Student student = optionalStudent.get();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        student.setModifiedOn(LocalDateTime.now().format(formatter));
+        student.setName(name);
+        student.setStatus(status);
+        student.setEmail(email);
+        student.setAddress(address);
+        return this.studentRepository.save(student);
+    }
 }
 
